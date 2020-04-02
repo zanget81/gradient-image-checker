@@ -1,3 +1,6 @@
 # IDE
 *.iml
 .idea
+
+#JS
+node_modules

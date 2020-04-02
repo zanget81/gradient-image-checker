@@ -3,7 +3,9 @@
 
 const minimist = require('minimist');
 
-const { log } = require('./utils');
+const { log, logError } = require('./utils');
+const { checker } = require('./checker');
+const { stdReport } = require('./reporter');
 
 function main() {
     log("####################################");
@@ -24,11 +26,15 @@ function main() {
         process.exit(-1);
     }
 
-    log("path: " + args.path);
+    checker(args.path).then((imageObj) => {
+        stdReport(args.path, imageObj);
+    }).catch((e) => {
+        logError('There was an error checking the image: ' + e);
+    });
 }
 
 
-if (require.index === module) {
+if (require.main === module) {
     try {
         main();
     }catch (e) {
